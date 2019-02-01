@@ -18,3 +18,8 @@ def add():
         flash('Address added for {}'.format(form.name.data))
         return redirect(url_for('index'))
     return render_template('add.html',  title='Sign In', form=form)
+@app.route('/delete/<int:id>', methods=['GET', 'POST'])
+def delete(id):
+  Address.query.filter_by(id=id).delete()
+  db.session.commit()
+  return redirect(url_for('index'))
