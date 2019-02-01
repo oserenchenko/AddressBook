@@ -2,5 +2,12 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <h1>Hi, {{ user.username }}!</h1>
+    <h1>Hi, welcome to your Address Book!</h1>
+    <div>
+      {% for address in addresses %}
+        <p>{{ address.name }}</p>
+        <p>{{ address.address }} {{address.city}} {{address.state}} {{address.zipcode}}</p>
+        <button>Delete</button>
+      {% endfor %}
+    </div>
 {% endblock %}
