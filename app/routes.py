@@ -3,6 +3,7 @@ from app import app, db
 from app.forms import AddressForm
 from app.models import Addresses
 from pyusps import address_information
+from usps import USPSApi, Address
 
 @app.route('/')
 @app.route('/index')
@@ -13,16 +14,22 @@ def index():
 def add():
     form = AddressForm()
     if form.validate_on_submit():
+
+      address = Address(
+      name=form.address.name,
+      address_1=form.address.data,
+      city=form.city.data,
+      state=form.state.data,
+      zipcode=form.zipcode.data
+      )
+
       addr = dict([
       ('address', form.address.data),
       ('city', form.city.data),
-      ('state', form.state.data),
-      ('zipcode', form.zipcode.data)
+      ('zip_code', form.zipcode.data)
       ])
-
       try:
-        address_information.verify('081NA0000050', addr)
-        print("good address")
+        correctAddress = address_information.verify('081NA0000050', addr)
         address = Addresses(name=form.name.data, address=form.address.data, city=form.city.data, state=form.state.data, zipcode=form.zipcode.data)
         db.session.add(address)
         db.session.commit()
@@ -30,7 +37,7 @@ def add():
         return redirect(url_for('index'))
       except Exception as e:
         print(e)
-        return render_template('add.html',  title='Sign In', form=form, message="Address is incorrect")
+        return render_template('add.html',  title='Sign In', form=form, message="Address is incorrect, please try again.")
     return render_template('add.html',  title='Sign In', form=form)
 @app.route('/delete/<int:id>', methods=['GET', 'POST'])
 def delete(id):

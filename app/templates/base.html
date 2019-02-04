@@ -2,23 +2,28 @@
 <html>
   <head>
       <title>{{ title }} - Address Book</title>
+      <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+      <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
   </head>
-  <body>
-      <div>
-          Address Book:
-          <a href="{{ url_for('index') }}">Home</a>
-          <a href="{{ url_for('add') }}">Add Address</a>
-      </div>
-      <hr>
+  <body style="font-family: 'Roboto', sans-serif">
+    <div class="container">
+      <h1 class="title text-center">Address Book</h1>
+      <ul class="nav nav-tabs justify-content-center">
+        <li class="nav-item">
+          <a class="links nav-link" href="{{ url_for('index') }}">All Addresses</a>
+        </li>
+        <li class="nav-item">
+          <a class="links nav-link" href="{{ url_for('add') }}">Add Address</a>
+        </li>
+      </ul>
       {% with messages = get_flashed_messages() %}
       {% if messages %}
-      <ul>
           {% for message in messages %}
-          <li>{{ message }}</li>
+          <p class="text-center font-weight-bold">{{ message }}</p>
           {% endfor %}
-      </ul>
       {% endif %}
       {% endwith %}
       {% block content %}{% endblock %}
+    </div>
   </body>
 </html>

@@ -1,13 +1,30 @@
-
 {% extends "base.html" %}
 
 {% block content %}
-    <h1>Hi, welcome to your Address Book!</h1>
-    <div>
-      {% for address in addresses %}
-        <p>{{ address.name }}</p>
-        <p>{{ address.address }} {{address.city}} {{address.state}} {{address.zipcode}}</p>
-        <a href="{{ url_for('delete', id=address.id) }}"><button>Delete</button></a>
-      {% endfor %}
-    </div>
+<table class="table table-bordered mt-3">
+  <thead>
+    <tr>
+      <th scope="col">Name</th>
+      <th scope="col">Address</th>
+      <th scope="col">City</th>
+      <th scope="col">State</th>
+      <th scope="col">Zip Code</th>
+      <th scope="col">Delete</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for address in addresses %}
+    <tr>
+      <td>{{ address.name }}</td>
+      <td>{{ address.address }}</td>
+      <td>{{address.city}}</td>
+      <td>{{address.state}}</td>
+      <td>{{address.zipcode}}</td>
+      <td><a href="{{ url_for('delete', id=address.id) }}"><button type="button" class="btn btn-sm btn-danger">X</button></a></td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+</div>
+
 {% endblock %}
