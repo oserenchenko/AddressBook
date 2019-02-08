@@ -14,15 +14,6 @@ def index():
 def add():
     form = AddressForm()
     if form.validate_on_submit():
-
-      address = Address(
-      name=form.address.name,
-      address_1=form.address.data,
-      city=form.city.data,
-      state=form.state.data,
-      zipcode=form.zipcode.data
-      )
-
       addr = dict([
       ('address', form.address.data),
       ('city', form.city.data),
