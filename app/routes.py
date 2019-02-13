@@ -4,12 +4,14 @@ from app.forms import AddressForm
 from app.models import Addresses
 from pyusps import address_information
 from usps import USPSApi, Address
+from flask import jsonify
 
 @app.route('/')
-@app.route('/index')
+@app.route('/addresses/all')
 def index():
     addresses = Addresses.query.all()
-    return render_template('index.html', title='Home', addresses=addresses)
+    print(addresses)
+    return jsonify(addresses)
 @app.route('/add', methods=['GET', 'POST'])
 def add():
     form = AddressForm()
