@@ -13,7 +13,7 @@ class App extends Component {
 
   fetchAddresses = () => {
     API.getAddresses() 
-    .then(res => console.log(res))
+    .then(res => console.log("HERE!", res))
     .catch(err => console.log(err))
   };
 

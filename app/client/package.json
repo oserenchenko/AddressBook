@@ -2,7 +2,14 @@
   "name": "addressbook",
   "version": "0.1.0",
   "private": true,
-  "proxy": "http://localhost:5000/a",
+  "proxy": {
+    "/api": {
+      "target": "http://localhost:5000"
+    },
+    "/assets": {
+      "target": "http://localhost:5000"
+    }
+  },
   "dependencies": {
     "axios": "^0.18.0",
     "react": "^16.8.1",
