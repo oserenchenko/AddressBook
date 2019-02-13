@@ -9,24 +9,29 @@ from flask import jsonify
 @app.route('/addresses/all')
 def index():
     allAddresses = Addresses.query.all()
+    allAddressesList = []
     for address in allAddresses:
-      print(address.name)
-      print(address.address)
-      print(address.city)
-      print(address.state)
-      print(address.zipcode)
-    return 'test'
+      newAddress = {
+        'id': address.id,
+        'name': address.name,
+        'address': address.address,
+        'city': address.city,
+        'state': address.state,
+        'zipcode': address.zipcode
+      }
+      allAddressesList.append(newAddress)
+    return jsonify(allAddressesList)
 
-@app.route('/addresses/add', methods=['GET', 'POST'])
+@app.route('/addresses/add', methods=['POST'])
 def add():
     data = request.get_json()
     address = Addresses(name=data['name'], address=data['address'], city=data['city'], state=data['state'], zipcode=data['zipcode'])
     db.session.add(address)
     db.session.commit()
-    return address
+    return redirect(url_for('index'))
 
-@app.route('/delete/<int:id>', methods=['GET', 'POST'])
+@app.route('/addresses/delete/<int:id>', methods=['GET', 'POST', 'DELETE'])
 def delete(id):
   Addresses.query.filter_by(id=id).delete()
   db.session.commit()
-  return redirect(url_for('index'))
+  return 'deleted address'

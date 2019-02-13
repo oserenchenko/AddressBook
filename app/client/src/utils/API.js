@@ -8,5 +8,9 @@ export default {
 
   postAddress: function(addressData) {
     return axios.post("/addresses/add", addressData);
+  },
+
+  deleteAddress: function(id) {
+    return axios.delete("/addresses/delete/" + id);
   }
 }

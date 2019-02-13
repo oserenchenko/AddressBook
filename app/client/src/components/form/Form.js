@@ -18,7 +18,7 @@ class Form extends Component {
       state: this.state.state,
       zipcode: this.state.zipcode
     }) 
-    .then(res => console.log(res))
+    .then(res => console.log("added address"))
     .catch(err => console.log(err))
   };
 
