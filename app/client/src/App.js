@@ -21,9 +21,8 @@ class App extends Component {
   };
 
   deleteAddress = (event) => {
-    console.log(event.target.id)
     API.deleteAddress(event.target.id)
-    .then(res => console.log("deleted address"))
+    .then(res => this.fetchAddresses())
     .catch(err => console.log(err))
   };
 
@@ -57,7 +56,7 @@ class App extends Component {
           </tbody>
         </table>
 
-        <Form></Form>
+        <Form fetchAddresses={this.fetchAddresses}></Form>
       </div>
     );
   }

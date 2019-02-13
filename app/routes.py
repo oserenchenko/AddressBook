@@ -28,7 +28,7 @@ def add():
     address = Addresses(name=data['name'], address=data['address'], city=data['city'], state=data['state'], zipcode=data['zipcode'])
     db.session.add(address)
     db.session.commit()
-    return redirect(url_for('index'))
+    return 'added address'
 
 @app.route('/addresses/delete/<int:id>', methods=['GET', 'POST', 'DELETE'])
 def delete(id):
