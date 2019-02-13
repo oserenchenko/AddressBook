@@ -2,36 +2,29 @@ from flask import render_template, flash, redirect, url_for
 from app import app, db
 from app.forms import AddressForm
 from app.models import Addresses
-from pyusps import address_information
-from usps import USPSApi, Address
+from flask import request
 from flask import jsonify
 
 @app.route('/')
 @app.route('/addresses/all')
 def index():
-    addresses = Addresses.query.all()
-    print(addresses)
-    return jsonify(addresses)
-@app.route('/add', methods=['GET', 'POST'])
+    allAddresses = Addresses.query.all()
+    for address in allAddresses:
+      print(address.name)
+      print(address.address)
+      print(address.city)
+      print(address.state)
+      print(address.zipcode)
+    return 'test'
+
+@app.route('/addresses/add', methods=['GET', 'POST'])
 def add():
-    form = AddressForm()
-    if form.validate_on_submit():
-      addr = dict([
-      ('address', form.address.data),
-      ('city', form.city.data),
-      ('zip_code', form.zipcode.data)
-      ])
-      try:
-        correctAddress = address_information.verify('081NA0000050', addr)
-        address = Addresses(name=form.name.data, address=form.address.data, city=form.city.data, state=form.state.data, zipcode=form.zipcode.data)
-        db.session.add(address)
-        db.session.commit()
-        flash('Address added for {}'.format(form.name.data))
-        return redirect(url_for('index'))
-      except Exception as e:
-        print(e)
-        return render_template('add.html',  title='Sign In', form=form, message="Address is incorrect, please try again.")
-    return render_template('add.html',  title='Sign In', form=form)
+    data = request.get_json()
+    address = Addresses(name=data['name'], address=data['address'], city=data['city'], state=data['state'], zipcode=data['zipcode'])
+    db.session.add(address)
+    db.session.commit()
+    return address
+
 @app.route('/delete/<int:id>', methods=['GET', 'POST'])
 def delete(id):
   Addresses.query.filter_by(id=id).delete()

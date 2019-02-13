@@ -5,4 +5,8 @@ export default {
   getAddresses: function() {
     return axios.get("/addresses/all");
   },
+
+  postAddress: function(addressData) {
+    return axios.post("/addresses/add", addressData);
+  }
 }
